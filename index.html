@@ -96,16 +96,14 @@
     }
     .cursor-particle {
       position: fixed;
-      width: 4px;
-      height: 4px;
-      background: white;
-      border-radius: 50%;
       pointer-events: none;
       opacity: 0.8;
-      will-change: transform, opacity;
       user-select: none;
       z-index: 9999;
+      font-family: Arial, sans-serif;
+      will-change: transform, opacity;
     }
+
 
     .eye-icon {
       position: absolute;
@@ -562,18 +560,22 @@
 
     const particles = [];
 
-    function createParticle(x, y) {
-      const particle = document.createElement('div');
-      particle.classList.add('cursor-particle');
-      particle.style.left = x + 'px';
-      particle.style.top = y + 'px';
-      particle.vx = (Math.random() - 0.5) * 0.5;
-      particle.vy = 1 + Math.random();
-      particle.life = 60 + Math.random() * 30;
-      document.body.appendChild(particle);
-      particles.push(particle);
-      return particle;
-    }
+function createParticle(x, y) {
+  const particle = document.createElement('span');
+  particle.classList.add('cursor-particle');
+  particle.textContent = '❄'; // Unicode snowflake
+  particle.style.left = x + 'px';
+  particle.style.top = y + 'px';
+  particle.style.fontSize = (8 + Math.random() * 8) + 'px'; // random size for variety
+  particle.style.color = 'white';
+  particle.vx = (Math.random() - 0.5) * 0.5;
+  particle.vy = 1 + Math.random();
+  particle.life = 60 + Math.random() * 30;
+  document.body.appendChild(particle);
+  particles.push(particle);
+  return particle;
+}
+
 
     window.addEventListener('mousemove', (e) => {
       for (let i = 0; i < 2; i++) {
