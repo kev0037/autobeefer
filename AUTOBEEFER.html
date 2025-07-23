@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAY AUTOBEEFER</title>
+  <style>
+    @keyframes sparkle-up {
+      0% { transform: translateY(100%) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateY(-200%) translateX(50px); opacity: 0; }
+    }
+
+    @keyframes sparkle-down {
+      0% { transform: translateY(-100%) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateY(200%) translateX(-50px); opacity: 0; }
+    }
+
+    @keyframes rainbow {
+      0% { color: red; }
+      14% { color: orange; }
+      28% { color: yellow; }
+      42% { color: green; }
+      57% { color: blue; }
+      71% { color: indigo; }
+      85% { color: violet; }
+      100% { color: red; }
+    }
+
+    @keyframes white-glow {
+      0% { box-shadow: 0 0 10px white; }
+      50% { box-shadow: 0 0 20px white; }
+      100% { box-shadow: 0 0 10px white; }
+    }
+
+    @keyframes rainbow-border {
+      0% { border-color: red; }
+      14% { border-color: orange; }
+      28% { border-color: yellow; }
+      42% { border-color: green; }
+      57% { border-color: blue; }
+      71% { border-color: indigo; }
+      85% { border-color: violet; }
+      100% { border-color: red; }
+    }
+
+    body {
+      background-color: #1e1e1e;
+      color: rgba(251, 250, 252, 1);
+      font-family: 'Helvetica', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      padding-top: 20px;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      background-color: rgb(36, 35, 37);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(251, 250, 252, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid transparent;
+      animation: rainbow-border 10s infinite;
+    }
+
+    .title-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+      font-family: 'Courier New', Courier, monospace;
+      color: rgba(251, 250, 252, 1);
+      position: relative;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      animation: rainbow 10s infinite;
+      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+
+    .eye-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 30px;
+      cursor: pointer;
+      animation: white-glow 2s infinite;
+      color: white;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 5px;
+    }
+
+    input, textarea {
+      background-color: #3e3e3e;
+      color: rgba(251, 250, 252, 1);
+      border: none;
+      padding: 8px;
+      margin: 4px 0;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(251, 250, 252, 1);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(251, 250, 252, 1);
+      opacity: 0;
+      animation: sparkle-up 2.5s linear infinite;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .sparkle-down {
+      animation: sparkle-down 2.5s linear infinite;
+    }
+
+    .sparkle1 { left: 20%; animation-delay: 0s; transform: translateX(20px) translateY(-50px); }
+    .sparkle2 { left: 40%; animation-delay: 0.5s; transform: translateX(-20px) translateY(-70px); }
+    .sparkle3 { left: 60%; animation-delay: 1s; transform: translateX(30px) translateY(-90px); }
+    .sparkle4 { left: 80%; animation-delay: 1.5s; transform: translateX(-30px) translateY(-110px); }
+    .sparkle5 { left: 20%; animation-delay: 0s; transform: translateX(-20px) translateY(50px); }
+    .sparkle6 { left: 40%; animation-delay: 0.5s; transform: translateX(20px) translateY(70px); }
+    .sparkle7 { left: 60%; animation-delay: 1s; transform: translateX(-30px) translateY(90px); }
+    .sparkle8 { left: 80%; animation-delay: 1.5s; transform: translateX(30px) translateY(110px); }
+
+    .tokens-box {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .tokens-box textarea {
+      height: 80px;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .buttons-container button {
+      background-color: #5e5e5e;
+      color: rgba(251, 250, 252, 1);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-size: 14px;
+      box-shadow: 0 0 5px rgba(251, 250, 252, 1);
+    }
+
+    .buttons-container button:hover {
+      background-color: #7e7e7e;
+      transform: scale(1.05);
+    }
+
+    .file-upload {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .file-upload input[type="file"] {
+      display: none;
+    }
+
+    .file-upload label {
+      display: block;
+      background-color: #5e5e5e;
+      color: rgba(251, 250, 252, 1);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      text-align: center;
+      font-size: 14px;
+      box-shadow: 0 0 5px rgba(251, 250, 252, 1);
+    }
+
+    .file-upload label:hover {
+      background-color: #7e7e7e;
+      transform: scale(1.05);
+    }
+
+    .settings-menu {
+      position: absolute;
+      top: 30px;
+      right: 10px;
+      background-color: #3e3e3e;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(251, 250, 252, 1);
+      display: none;
+      width: 200px;
+    }
+
+    .settings-menu.active {
+      display: block;
+    }
+
+    .settings-menu label {
+      display: block;
+      margin-bottom: 5px;
+      color: rgba(251, 250, 252, 1);
+    }
+
+    .settings-menu input[type="range"] {
+      width: 100%;
+      margin-bottom: 10px;
+      appearance: none;
+      height: 8px;
+      background: #5e5e5e;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .settings-menu input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(251, 250, 252, 1);
+    }
+
+    .settings-menu select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 8px;
+      background-color: #5e5e5e;
+      color: rgba(251, 250, 252, 1);
+      margin-bottom: 10px;
+    }
+
+    .settings-menu .close-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 24px;
+      cursor: pointer;
+      animation: white-glow 2s infinite;
+      color: white;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .settings-menu .remove-file-button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .settings-menu .remove-file-button:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title-container">
+      <span class="title">RAY AUTOBEEFER</span>
+      <span class="eye-icon" onclick="toggleSettingsMenu()">💀</span>
+    </div>
+
+    <!-- Tokens Box -->
+    <div class="input-group tokens-box">
+      <textarea id="tokens" rows="3" placeholder="Tokens (one per line)"></textarea>
+    </div>
+
+    <!-- Channel ID Input -->
+    <div class="input-group">
+      <input type="text" id="channelId" placeholder="Channel ID">
+    </div>
+
+    <!-- User ID Input -->
+    <div class="input-group">
+      <input type="text" id="userId" placeholder="User ID (optional)">
+    </div>
+
+    <!-- File Upload Button -->
+    <div class="file-upload">
+      <label for="fileInput">Upload Message File</label>
+      <input type="file" id="fileInput" accept=".txt">
+    </div>
+
+    <!-- Buttons Container -->
+    <div class="buttons-container">
+      <button id="startButton">Start AutoBeefer</button>
+      <button id="switchTokenButton">Switch Token</button>
+    </div>
+
+    <!-- Sparkles -->
+    <div class="sparkle sparkle1" style="bottom: 0%;"></div>
+    <div class="sparkle sparkle2" style="bottom: 0%;"></div>
+    <div class="sparkle sparkle3" style="bottom: 0%;"></div>
+    <div class="sparkle sparkle4" style="bottom: 0%;"></div>
+    <div class="sparkle sparkle5 sparkle-down" style="top: 0%;"></div>
+    <div class="sparkle sparkle6 sparkle-down" style="top: 0%;"></div>
+    <div class="sparkle sparkle7 sparkle-down" style="top: 0%;"></div>
+    <div class="sparkle sparkle8 sparkle-down" style="top: 0%;"></div>
+
+    <!-- Settings Menu -->
+    <div class="settings-menu" id="settingsMenu">
+      <span class="close-button" onclick="toggleSettingsMenu()">✕</span>
+      <label for="delaySlider">Delay (seconds):</label>
+      <input type="range" id="delaySlider" min="1" max="10" value="3">
+      <span id="delayValue">3</span>
+      <label for="messageModeSelect">Message Mode:</label>
+      <select id="messageModeSelect">
+        <option value="normal">Normal</option>
+        <option value="bold">Bold</option>
+      </select>
+      <label for="formatSelect">Format:</label>
+      <select id="formatSelect">
+        <option value="normal">Normal</option>
+        <option value="ladder">Ladder</option>
+        <option value="ladderXnormal">Ladder X Normal</option>
+      </select>
+      <label for="tokenFormatSelect">Token Format:</label>
+      <select id="tokenFormatSelect">
+        <option value="limited">Limited</option>
+        <option value="all">All</option>
+      </select>
+      <label for="replySelect">Reply:</label>
+      <select id="replySelect">
+        <option value="off">Off</option>
+        <option value="on">On</option>
+      </select>
+      <button class="remove-file-button" onclick="removeFile()">Remove File</button>
+    </div>
+  </div>
+
+  <script>
+    let runeTokens = [];
+    let runeMessages = [];
+    let currentRuneIndex = 0;
+    let spamInterval;
+    let delay = 3000;
+    let formatMode = "normal";
+    let tokenFormatMode = "limited";
+    let messageMode = "normal";
+    let replyMode = "off";
+    let isRunning = false;
+    let lastMessageIndex = 0;
+
+    function loadRuneTokens() {
+      const tokensInput = document.getElementById('tokens').value.trim();
+      runeTokens = tokensInput.split('\n').map(token => token.trim()).filter(token => token);
+    }
+
+    function loadRuneMessagesFromFile(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        runeMessages = reader.result.split('\n').map(message => message.trim()).filter(message => message);
+      };
+      reader.readAsText(file);
+    }
+
+    function formatMessage(message) {
+      if (formatMode === "ladder") {
+        const words = message.split(' ');
+        if (messageMode === "bold") {
+          return words.map(word => `# ${word}`).join('\n');
+        } else {
+          return words.join('\n');
+        }
+      } else if (formatMode === "ladderXnormal") {
+        const words = message.split(' ');
+        if (messageMode === "bold") {
+          return words.map(word => `# ${word}`).join(' ');
+        } else {
+          return words.join(' ');
+        }
+      } else if (messageMode === "bold") {
+        return `# ${message}`;
+      }
+      return message;
+    }
+
+    async function startAutoBeefer() {
+      if (isRunning) {
+        clearInterval(spamInterval);
+        document.getElementById('startButton').innerText = 'Start AutoBeefer';
+        isRunning = false;
+        return;
+      }
+
+      loadRuneTokens();
+
+      if (runeTokens.length === 0) {
+        return;
+      }
+
+      if (runeMessages.length === 0) {
+        return;
+      }
+
+      const channelId = document.getElementById('channelId').value.trim();
+      if (!channelId) {
+        return;
+      }
+
+      const userId = document.getElementById('userId').value.trim();
+      let messageIndex = lastMessageIndex;
+
+      spamInterval = setInterval(async () => {
+        let message = runeMessages[messageIndex];
+
+        if (userId) {
+          message += ` <@${userId}>`;
+        }
+
+        message = formatMessage(message);
+
+        if (tokenFormatMode === "limited") {
+          const token = runeTokens[currentRuneIndex];
+          await sendRuneMessage(token, channelId, message);
+          currentRuneIndex = (currentRuneIndex + 1) % runeTokens.length;
+        } else if (tokenFormatMode === "all") {
+          const promises = runeTokens.map(token => sendRuneMessage(token, channelId, message));
+          await Promise.all(promises);
+        }
+
+        if (replyMode === "on" && userId && Math.random() < 0.5) {
+          const replyMessage = runeMessages[Math.floor(Math.random() * runeMessages.length)];
+          await sendRuneMessage(runeTokens[currentRuneIndex], channelId, replyMessage);
+        }
+
+        lastMessageIndex = (messageIndex + 1) % runeMessages.length;
+        messageIndex = lastMessageIndex;
+      }, delay);
+
+      document.getElementById('startButton').innerText = 'Stop AutoBeefer';
+      isRunning = true;
+    }
+
+    async function sendRuneMessage(token, channelId, message) {
+      try {
+        const response = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+          method: 'POST',
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ content: message })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          if (errorData.code === 429) {
+            await new Promise(resolve => setTimeout(resolve, errorData.retry_after));
+            return sendRuneMessage(token, channelId, message);
+          }
+          throw new Error(`Error: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Failed to send message:', error);
+      }
+    }
+
+    function switchRuneToken() {
+      loadRuneTokens();
+      if (runeTokens.length === 0) {
+        return;
+      }
+
+      currentRuneIndex = (currentRuneIndex + 1) % runeTokens.length;
+    }
+
+    function toggleSettingsMenu() {
+      const settingsMenu = document.getElementById('settingsMenu');
+      settingsMenu.classList.toggle('active');
+    }
+
+    function removeFile() {
+      runeMessages = [];
+      document.getElementById('fileInput').value = '';
+    }
+
+    document.getElementById('startButton').addEventListener('click', startAutoBeefer);
+    document.getElementById('switchTokenButton').addEventListener('click', switchRuneToken);
+
+    document.getElementById('fileInput').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        loadRuneMessagesFromFile(file);
+      }
+    });
+
+    document.getElementById('delaySlider').addEventListener('input', (event) => {
+      delay = event.target.value * 1000;
+      document.getElementById('delayValue').innerText = event.target.value;
+    });
+
+    document.getElementById('formatSelect').addEventListener('change', (event) => {
+      formatMode = event.target.value;
+    });
+
+    document.getElementById('tokenFormatSelect').addEventListener('change', (event) => {
+      tokenFormatMode = event.target.value;
+    });
+
+    document.getElementById('messageModeSelect').addEventListener('change', (event) => {
+      messageMode = event.target.value;
+    });
+
+    document.getElementById('replySelect').addEventListener('change', (event) => {
+      replyMode = event.target.value;
+    });
+  </script>
+</body>
+</html>
