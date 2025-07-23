@@ -577,49 +577,54 @@ loadRuneMessagesFromFile(file);
 });
 
 
-
   const titleText = "@raydongg";
   let index = 0;
   let forward = true;
   let cursorVisible = true;
 
-  function updateTitle() {
-    let displayText = titleText.substring(0, index);
-    // Add blinking cursor
-    displayText += cursorVisible ? "|" : " ";
-    document.title = displayText;
+  // Update the title text with or without cursor
+  function renderTitle() {
+    const text = titleText.substring(0, index);
+    document.title = cursorVisible ? text + "|" : text + " ";
+  }
 
+  // Blink cursor every 500ms independently
+  setInterval(() => {
+    cursorVisible = !cursorVisible;
+    renderTitle();
+  }, 500);
+
+  // Typing speed - fixed 150ms per character for smooth typing
+  function typeWriter() {
     if (forward) {
       if (index < titleText.length) {
         index++;
-        setTimeout(updateTitle, randomDelay());
+        renderTitle();
+        setTimeout(typeWriter, 150);
       } else {
-        forward = false;
-        setTimeout(updateTitle, 1000); // pause at full text
+        // Pause at full text before deleting
+        setTimeout(() => {
+          forward = false;
+          typeWriter();
+        }, 1000);
       }
     } else {
       if (index > 0) {
         index--;
-        setTimeout(updateTitle, randomDelay());
+        renderTitle();
+        setTimeout(typeWriter, 150);
       } else {
-        forward = true;
-        setTimeout(updateTitle, 500); // pause at empty
+        // Pause at empty before typing again
+        setTimeout(() => {
+          forward = true;
+          typeWriter();
+        }, 500);
       }
     }
-
-    // Toggle cursor visibility every 400ms
-    cursorVisible = !cursorVisible;
   }
 
-  // Random delay to mimic natural typing speed, between 100 and 200 ms
-  function randomDelay() {
-    return 100 + Math.random() * 100;
-  }
-
-  updateTitle();
-
-
-
+  // Start typing loop
+  typeWriter();
 
 
   function isMobileDevice() {
