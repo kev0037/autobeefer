@@ -594,37 +594,75 @@ loadRuneMessagesFromFile(file);
     renderTitle();
   }, 500);
 
-  // Typing speed - fixed 150ms per character for smooth typing
-  function typeWriter() {
-    if (forward) {
-      if (index < titleText.length) {
-        index++;
-        renderTitle();
-        setTimeout(typeWriter, 150);
-      } else {
-        // Pause at full text before deleting
-        setTimeout(() => {
-          forward = false;
-          typeWriter();
-        }, 1000);
-      }
-    } else {
-      if (index > 0) {
-        index--;
-        renderTitle();
-        setTimeout(typeWriter, 150);
-      } else {
-        // Pause at empty before typing again
-        setTimeout(() => {
-          forward = true;
-          typeWriter();
-        }, 500);
-      }
-    }
+
+  const titleText = "made by @raydongg";
+  let index = 0;
+  let forward = true;
+  let cursorVisible = true;
+
+  const typingSpeed = 150; // ms per character
+  const pauseAfterTyping = 1000; // pause ms at full text
+  const pauseAfterDeleting = 500; // pause ms at empty
+  const cursorBlinkInterval = 500;
+
+  let lastTypeTime = 0;
+  let lastBlinkTime = 0;
+
+  function updateTitle() {
+    const text = titleText.substring(0, index);
+    document.title = cursorVisible ? text + "|" : text + " ";
   }
 
-  // Start typing loop
-  typeWriter();
+  function loop(timestamp) {
+    if (!lastTypeTime) lastTypeTime = timestamp;
+    if (!lastBlinkTime) lastBlinkTime = timestamp;
+
+    // Handle typing/deleting
+    if (timestamp - lastTypeTime > typingSpeed) {
+      lastTypeTime = timestamp;
+
+      if (forward) {
+        if (index < titleText.length) {
+          index++;
+        } else {
+          // Pause after typing full text
+          if (timestamp - lastTypeTime < pauseAfterTyping) {
+            // do nothing, wait
+          } else {
+            forward = false;
+            lastTypeTime = timestamp; // reset timer for deleting
+          }
+        }
+      } else {
+        if (index > 0) {
+          index--;
+        } else {
+          // Pause after deleting full text
+          if (timestamp - lastTypeTime < pauseAfterDeleting) {
+            // wait
+          } else {
+            forward = true;
+            lastTypeTime = timestamp; // reset timer for typing
+          }
+        }
+      }
+
+      updateTitle();
+    }
+
+    // Handle cursor blinking independently
+    if (timestamp - lastBlinkTime > cursorBlinkInterval) {
+      lastBlinkTime = timestamp;
+      cursorVisible = !cursorVisible;
+      updateTitle();
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+
+
 
 
   function isMobileDevice() {
