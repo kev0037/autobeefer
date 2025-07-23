@@ -577,31 +577,47 @@ loadRuneMessagesFromFile(file);
 });
 
 
+
   const titleText = "@raydongg";
   let index = 0;
   let forward = true;
+  let cursorVisible = true;
 
   function updateTitle() {
+    let displayText = titleText.substring(0, index);
+    // Add blinking cursor
+    displayText += cursorVisible ? "|" : " ";
+    document.title = displayText;
+
     if (forward) {
-      index++;
-      if (index === titleText.length) {
+      if (index < titleText.length) {
+        index++;
+        setTimeout(updateTitle, randomDelay());
+      } else {
         forward = false;
         setTimeout(updateTitle, 1000); // pause at full text
-        return;
       }
     } else {
-      index--;
-      if (index === 0) {
+      if (index > 0) {
+        index--;
+        setTimeout(updateTitle, randomDelay());
+      } else {
         forward = true;
         setTimeout(updateTitle, 500); // pause at empty
-        return;
       }
     }
-    document.title = titleText.substring(0, index);
-    setTimeout(updateTitle, 150); // typing speed, adjust as needed
+
+    // Toggle cursor visibility every 400ms
+    cursorVisible = !cursorVisible;
+  }
+
+  // Random delay to mimic natural typing speed, between 100 and 200 ms
+  function randomDelay() {
+    return 100 + Math.random() * 100;
   }
 
   updateTitle();
+
 
 
 
