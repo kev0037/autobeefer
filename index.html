@@ -24,14 +24,13 @@
     z-index: 9999;
   }
 
-  #mobile-blocker span {
-    border-right: 2px solid white;
-    white-space: nowrap;
-    overflow: hidden;
-    display: inline-block;
-    animation: typing 3s steps(30, end) forwards, blink 0.7s step-end infinite;
-  }
-
+#mobile-blocker span {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: typing 3s steps(30, end) forwards;
+}
+  
   @keyframes typing {
     from { width: 0; }
     to { width: 100%; }
