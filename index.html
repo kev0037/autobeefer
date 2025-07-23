@@ -576,38 +576,19 @@ loadRuneMessagesFromFile(file);
 }
 });
 
+  <span id="typed"></span>
 
-  const titleText = "@raydongg";
-  let index = 0;
-  let forward = true;
-  let cursorVisible = true;
-
-  // Update the title text with or without cursor
-  function renderTitle() {
-    const text = titleText.substring(0, index);
-    document.title = cursorVisible ? text + "|" : text + " ";
-  }
-
-  // Blink cursor every 500ms independently
-  setInterval(() => {
-    cursorVisible = !cursorVisible;
-    renderTitle();
-  }, 500);
-
-    // Handle cursor blinking independently
-    if (timestamp - lastBlinkTime > cursorBlinkInterval) {
-      lastBlinkTime = timestamp;
-      cursorVisible = !cursorVisible;
-      updateTitle();
-    }
-
-    requestAnimationFrame(loop);
-  }
-
-  requestAnimationFrame(loop);
-
-
-
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    const typed = new Typed('#typed', {
+      strings: ['@raydongg'],
+      typeSpeed: 80,       // speed of typing in ms
+      backSpeed: 50,       // speed of deleting
+      backDelay: 1500,     // delay before deleting
+      loop: true,          // loop the animation
+      showCursor: true,
+      cursorChar: '|',
+    });
 
   function isMobileDevice() {
     return window.innerWidth <= 1024; 
