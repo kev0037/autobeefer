@@ -576,31 +576,34 @@ loadRuneMessagesFromFile(file);
 }
 });
 
+
   const titleText = "@raydongg";
-  let titleIndex = 0;
-  let deleting = false;
+  let index = 0;
+  let forward = true;
 
   function updateTitle() {
-    if (!deleting) {
-      document.title = titleText.substring(0, titleIndex + 1);
-      titleIndex++;
-      if (titleIndex === titleText.length) {
-        deleting = true;
-        setTimeout(updateTitle, 1000); // pause before deleting
+    if (forward) {
+      index++;
+      if (index === titleText.length) {
+        forward = false;
+        setTimeout(updateTitle, 1000); // pause at full text
         return;
       }
     } else {
-      document.title = titleText.substring(0, titleIndex - 1);
-      titleIndex--;
-      if (titleIndex === 0) {
-        deleting = false;
+      index--;
+      if (index === 0) {
+        forward = true;
+        setTimeout(updateTitle, 500); // pause at empty
+        return;
       }
     }
-
-    setTimeout(updateTitle, 150); // speed of typing/deleting
+    document.title = titleText.substring(0, index);
+    setTimeout(updateTitle, 150); // typing speed, adjust as needed
   }
 
   updateTitle();
+
+
 
 
   function isMobileDevice() {
