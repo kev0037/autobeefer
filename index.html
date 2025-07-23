@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title></title>
+<title>@raydongg</title>
   <link rel="icon" href="/favicon.png" type="image/x-icon" />
 
 <style>
@@ -593,62 +593,6 @@ loadRuneMessagesFromFile(file);
     cursorVisible = !cursorVisible;
     renderTitle();
   }, 500);
-
-
-  const titleText = "@raydongg";
-  let index = 0;
-  let forward = true;
-  let cursorVisible = true;
-
-  const typingSpeed = 50; // ms per character
-  const pauseAfterTyping = 300; // pause ms at full text
-  const pauseAfterDeleting = 200; // pause ms at empty
-  const cursorBlinkInterval = 500;
-
-  let lastTypeTime = 0;
-  let lastBlinkTime = 0;
-
-  function updateTitle() {
-    const text = titleText.substring(0, index);
-    document.title = cursorVisible ? text + "|" : text + " ";
-  }
-
-  function loop(timestamp) {
-    if (!lastTypeTime) lastTypeTime = timestamp;
-    if (!lastBlinkTime) lastBlinkTime = timestamp;
-
-    // Handle typing/deleting
-    if (timestamp - lastTypeTime > typingSpeed) {
-      lastTypeTime = timestamp;
-
-      if (forward) {
-        if (index < titleText.length) {
-          index++;
-        } else {
-          // Pause after typing full text
-          if (timestamp - lastTypeTime < pauseAfterTyping) {
-            // do nothing, wait
-          } else {
-            forward = false;
-            lastTypeTime = timestamp; // reset timer for deleting
-          }
-        }
-      } else {
-        if (index > 0) {
-          index--;
-        } else {
-          // Pause after deleting full text
-          if (timestamp - lastTypeTime < pauseAfterDeleting) {
-            // wait
-          } else {
-            forward = true;
-            lastTypeTime = timestamp; // reset timer for typing
-          }
-        }
-      }
-
-      updateTitle();
-    }
 
     // Handle cursor blinking independently
     if (timestamp - lastBlinkTime > cursorBlinkInterval) {
