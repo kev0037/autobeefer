@@ -7,13 +7,6 @@
   <link rel="icon" href="/favicon.png" type="image/x-icon" />
 
 <style>
-     #typed {
-      font-family: monospace;
-      font-size: 2rem;
-      white-space: nowrap;
-      border-right: 2px solid black;
-      padding-right: 5px;
-    }
   #mobile-blocker {
     position: fixed;
     top: 0;
@@ -582,20 +575,6 @@ if (file) {
 loadRuneMessagesFromFile(file);
 }
 });
-
-  <span id="typed"></span>
-
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script>
-    const typed = new Typed('#typed', {
-      strings: ['@raydongg'],
-      typeSpeed: 80,       // speed of typing in ms
-      backSpeed: 50,       // speed of deleting
-      backDelay: 1500,     // delay before deleting
-      loop: true,          // loop the animation
-      showCursor: true,
-      cursorChar: '|',
-    });
 
   function isMobileDevice() {
     return window.innerWidth <= 1024; 
