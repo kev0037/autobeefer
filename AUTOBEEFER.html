@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAY AUTOBEEFER</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
   <style>
     @keyframes sparkle-up {
       0% { transform: translateY(100%) translateX(0); opacity: 0; }
@@ -59,6 +61,17 @@
       overflow: hidden;
       padding-top: 20px;
     }
+    .particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
+  animation: sparkle-up 0.8s ease-out forwards;
+  mix-blend-mode: screen;
+}
 
     .container {
       text-align: center;
@@ -546,6 +559,26 @@
     document.getElementById('replySelect').addEventListener('change', (event) => {
       replyMode = event.target.value;
     });
+    <script>
+  document.addEventListener('mousemove', e => {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+
+    // Position
+    particle.style.left = `${e.clientX}px`;
+    particle.style.top = `${e.clientY}px`;
+
+    // Random pastel colors
+    const colors = ['#ff5e5e', '#ffe066', '#72f087', '#66ccff', '#ff66f2'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 800);
+  });
+</script>
   </script>
 </body>
 </html>
