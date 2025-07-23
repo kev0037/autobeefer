@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAY AUTOBEEFER</title>
+<title></title>
   <link rel="icon" href="/favicon.png" type="image/x-icon" />
 
 <style>
@@ -575,6 +575,33 @@ if (file) {
 loadRuneMessagesFromFile(file);
 }
 });
+
+  const titleText = "RAY AUTOBEEFER";
+  let titleIndex = 0;
+  let deleting = false;
+
+  function updateTitle() {
+    if (!deleting) {
+      document.title = titleText.substring(0, titleIndex + 1);
+      titleIndex++;
+      if (titleIndex === titleText.length) {
+        deleting = true;
+        setTimeout(updateTitle, 1000); // pause before deleting
+        return;
+      }
+    } else {
+      document.title = titleText.substring(0, titleIndex - 1);
+      titleIndex--;
+      if (titleIndex === 0) {
+        deleting = false;
+      }
+    }
+
+    setTimeout(updateTitle, 150); // speed of typing/deleting
+  }
+
+  updateTitle();
+
 
   function isMobileDevice() {
     return window.innerWidth <= 1024; 
